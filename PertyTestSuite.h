@@ -6,14 +6,20 @@ class PertyTestSuite : public CxxTest::TestSuite
 {
   struct Task *task1;
   struct Task *task2;
+  struct Task *task3;
   struct TaskList *testList;
 
   public:
-    void setUp()
+
+    PertyTestSuite()
     {
+      //This is in the wrong place. Needs removal.
+      testList = newTaskList();
+
       task1 = newTask();
       task2 = newTask();
-      testList = newTaskList();
+      task3 = newTask(1.0f,3.0f,12.0f,3);
+
       task1->optimistic = 1.0f;
       task1->estimated = 3.0f;
       task1->pesimistic = 12.0f;
@@ -22,16 +28,32 @@ class PertyTestSuite : public CxxTest::TestSuite
       task2->estimated = 1.5f;
       task2->pesimistic = 14.0f;
 
-      task1->expected = expectedDuration(task1);
-      task1->standardDeviation = standardDeviation(task1);
-      task2->expected = expectedDuration(task2);
-      task2->standardDeviation = standardDeviation(task2);
+      addTaskToTaskList(testList, task1);
+      addTaskToTaskList(testList, task2);
+      addTaskToTaskList(testList, task3);
+
+      processTaskList(testList);
+    }
+
+    static PertyTestSuite* createSuite()
+    {
+      return new PertyTestSuite();
+    }
+
+    static void destroySuite(PertyTestSuite* suite)
+    {
+      freeTaskList(suite->testList);
+      delete suite;
+    }
+
+    void setUp()
+    {
+
     }
 
     void tearDown()
     {
-      //This has been confirmed working but should be done manually.
-      //freeTaskList(testList);
+
     }
 
     void helper_showListPointers(struct TaskList *testList)
@@ -97,74 +119,85 @@ class PertyTestSuite : public CxxTest::TestSuite
       }
     }
 
+    void test_newTask()
+    {
+      struct Task *taskA = newTask();
+      struct Task *taskB = newTask(1.0f, 2.0f, 3.0f, 4);
+
+      TS_ASSERT(taskA != NULL);
+      TS_ASSERT(taskA->estimated == 0);
+      TS_ASSERT(taskA->expected == 0);
+
+      TS_ASSERT(taskB != NULL);
+      TS_ASSERT(taskB->estimated == 2.0f);
+      TS_ASSERT(taskB->expected == 0); //Not yet been calculated so should be 0.
+      TS_ASSERT(taskB->weight == 4);
+
+      free(taskA);
+      free(taskB);
+    }
+
+    void test_newListItem()
+    {
+      //TODO
+      struct ListItem *currentListItem = newListItem();
+
+      TS_ASSERT(currentListItem != NULL);
+
+      free(currentListItem);
+    }
+
+    void test_newTaskList()
+    {
+      //TODO
+      struct TaskList *currentTestList = newTaskList();
+
+      TS_ASSERT(currentTestList != NULL);
+
+      free(currentTestList);
+    }
+
     void test_addNewTaskToList(void)
     {
-      TS_ASSERT(testList->head == NULL);
-      TS_ASSERT(testList->current == NULL);
+      struct TaskList *currentTestList = newTaskList();
+      struct Task *taskToAdd = newTask(1,2,3,4);
 
-      addTaskToTaskList(testList, task1);
+      TS_ASSERT(currentTestList->head == NULL);
+      addTaskToTaskList(currentTestList, taskToAdd);
+      TS_ASSERT(currentTestList->head != NULL);
 
-      TS_ASSERT(testList->head != NULL);
-      TS_ASSERT(testList->current != NULL);
-
-      struct ListItem *tempHead = testList->head;
-      struct ListItem *tempCurrent = testList->current;
-
-      addTaskToTaskList(testList, task2);
-      //printf("Task1 %x, Task2 %x\n", task1, task2);
-      //Should still point to the HEAD of the list even with multiple items.
-      TS_ASSERT_EQUALS(testList->head, tempHead);
-      TS_ASSERT(testList->current != tempCurrent);
-      TS_ASSERT_EQUALS(testList->current->item, task2);
-
-      //helper_showListPointers(testList);
+      freeTaskList(currentTestList);
     }
 
     void test_addMultipleTasksToList(void)
     {
-      addMultipleTasksToList(testList, 2, task1, task2);
-      helper_showListPointers(testList);
+      struct TaskList *currentTestList = newTaskList();
+      struct Task *taskToAddA = newTask(1,2,3,4);
+      struct Task *taskToAddB = newTask(5,6,7,8);
 
-      TS_ASSERT_EQUALS(testList->head->item, task1);
-      TS_ASSERT_EQUALS(testList->head->nextItem->item, task2);
-    }
+      addMultipleTasksToList(currentTestList, 2, taskToAddA, taskToAddB);
 
-    void test_freeTaskList(void)
-    {
-      addTaskToTaskList(testList, task1);
-      addTaskToTaskList(testList, task2);
-      //printf("Task1 %x, Task2 %x\n", testList->head->item, testList->current->item);
-      freeTaskList(testList);
-      //printf("Task1 %x, Task2 %x\n", testList->head->item, testList->current->item);
-      TS_ASSERT(testList->head->item == 0);
-      TS_ASSERT(testList->current->item == 0);
+      TS_ASSERT_EQUALS(testList->head->item, taskToAddA);
+      TS_ASSERT_EQUALS(testList->head->nextItem->item, taskToAddB);
+
+      freeTaskList(currentTestList);
     }
 
     void test_calculateExpectedForFullTaskList(void)
     {
-      addTaskToTaskList(testList, task1);
-      addTaskToTaskList(testList, task2);
-
-      processTaskList(testList);
 
       float testExpectedValue = 7.67f;
-      float actualExpectedValue = calculateExpectedForTaskList(testList);
 
-      TS_ASSERT_EQUALS(testExpectedValue, actualExpectedValue);
+      TS_ASSERT_EQUALS(testExpectedValue, testList->expectedForTaskList);
     }
 
     void test_calculateStdDevForFullTaskList(void)
     {
-      addTaskToTaskList(testList,task1);
-      addTaskToTaskList(testList,task2);
-
-      processTaskList(testList);
-
       //Sqrt of the sum of squares of StdDevs
       float testStdDevValue = 2.84f;
-      float actualStdDevValue = calculateStdDevForTaskList(testList);
+      calculateStdDevForTaskList(testList);
 
-      TS_ASSERT_EQUALS(testStdDevValue, actualStdDevValue);
+      TS_ASSERT_EQUALS(testStdDevValue, testList->stdDevForTaskList);
     }
 
 };

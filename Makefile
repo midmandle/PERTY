@@ -2,16 +2,17 @@ CC = g++ -ggdb
 
 CXXTESTGEN = cxxtestgen
 
-all: cxxtest cfiles main clean
+all: main clean
 
-cxxtest:
-	$(CXXTESTGEN) --error-printer -o runner.cpp *.h
+main: root
+	$(CC) -o runner -I$CXXTEST runner.cpp PertyTestSuite.cpp PertySchedulerTestSuite.cpp pert.c pertScheduler.c
 
-cfiles:
-	$(CC) -c runner.cpp *.c
+root: parts
+	$(CXXTESTGEN) --root --error-printer -o runner.cpp
 
-main:
-	$(CC) -o runner *.o
+parts:
+	$(CXXTESTGEN) --part --error-printer -o PertyTestSuite.cpp PertyTestSuite.h pert.h
+	$(CXXTESTGEN) --part --error-printer -o PertySchedulerTestSuite.cpp PertySchedulerTestSuite.h pertScheduler.h
 
 clean:
 	rm -f *.o

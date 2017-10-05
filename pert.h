@@ -11,6 +11,9 @@ struct Task {
   float standardDeviation;
   float bestCaseEstimate;
   float worstCaseEstimate;
+
+  float priority;
+  float weight;
 };
 
 struct ListItem {
@@ -21,6 +24,9 @@ struct ListItem {
 struct TaskList {
   struct ListItem *head = NULL;
   struct ListItem *current = NULL;
+
+  float expectedForTaskList = 0.0f;
+  float stdDevForTaskList = 0.0f;
 };
 
 float expectedDuration(struct Task *task);
@@ -30,12 +36,14 @@ float bestCaseEstimate(float multiplier, struct Task *task);
 float worstCaseEstimate(float multiplier, struct Task *task);
 
 void processTaskList(struct TaskList *taskList);
-float calculateExpectedForTaskList(struct TaskList *taskList);
-float calculateStdDevForTaskList(struct TaskList *taskList);
+void calculateExpectedForTaskList(struct TaskList *taskList);
+void calculateStdDevForTaskList(struct TaskList *taskList);
 
 struct TaskList *newTaskList();
+
 struct ListItem *newListItem();
 struct Task *newTask();
+struct Task *newTask(float optimistic, float estimated, float pesimistic, float weight); //OVERLOAD
 
 int freeTaskList(struct TaskList *taskListToFree);
 void addTaskToTaskList(struct TaskList *taskList, struct Task *task);

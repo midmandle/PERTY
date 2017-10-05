@@ -55,10 +55,13 @@ void  processTaskList(struct TaskList *taskList)
     taskList->current->item->worstCaseEstimate = worstCaseEstimate(1,taskToBeProcessed);
     taskList->current = taskList->current->nextItem;
   }
+
+  calculateExpectedForTaskList(taskList);
+  calculateStdDevForTaskList(taskList);
 }
 
 //Calculate combined expectedDuration for entire TaskList
-float calculateExpectedForTaskList(struct TaskList *taskList)
+void calculateExpectedForTaskList(struct TaskList *taskList)
 {
   float combinedExpected = 0.0f;
   taskList->current = taskList->head;
@@ -69,11 +72,11 @@ float calculateExpectedForTaskList(struct TaskList *taskList)
     taskList->current = taskList->current->nextItem;
   }
 
-  return combinedExpected;
+  taskList->expectedForTaskList = combinedExpected;
 }
 
 //Calculate combined standardDeviation for entire TaskList
-float calculateStdDevForTaskList(struct TaskList *taskList)
+void calculateStdDevForTaskList(struct TaskList *taskList)
 {
   float combinedStdDev = 0.0f;
   taskList->current = taskList->head;
@@ -84,7 +87,7 @@ float calculateStdDevForTaskList(struct TaskList *taskList)
     taskList->current = taskList->current->nextItem;
   }
 
-  return roundf(sqrt(combinedStdDev) *100)/100;
+  taskList->stdDevForTaskList = roundf(sqrt(combinedStdDev) *100)/100;
 }
 
 //################# END OF PERT calculations #############################
@@ -124,12 +127,13 @@ struct Task *newTask()
   ptrToNewTask->standardDeviation = 0;
   ptrToNewTask->bestCaseEstimate = 0;
   ptrToNewTask->worstCaseEstimate = 0;
+  ptrToNewTask->weight = 0;
 
   return ptrToNewTask;
 }
 
 //OVERLOAD
-struct Task *newTask(float optimistic, float estimated, float pesimistic)
+struct Task *newTask(float optimistic, float estimated, float pesimistic, float weight)
 {
   struct Task *ptrToNewTask = (Task *) malloc(sizeof(struct Task));
   ptrToNewTask->optimistic = optimistic;
@@ -139,6 +143,7 @@ struct Task *newTask(float optimistic, float estimated, float pesimistic)
   ptrToNewTask->standardDeviation = 0;
   ptrToNewTask->bestCaseEstimate = 0;
   ptrToNewTask->worstCaseEstimate = 0;
+  ptrToNewTask->weight = weight;
 
   return ptrToNewTask;
 }
@@ -163,7 +168,8 @@ struct ListItem *_freeTaskListRecurse(struct ListItem *headPointer)
 
 int _freeListItem(struct ListItem *listItemToFree)
 {
-  _freeTask(listItemToFree->item);
+  //if(listItemToFree->item != NULL)
+    _freeTask(listItemToFree->item);
   free(listItemToFree);
   return 0;
 
@@ -171,6 +177,7 @@ int _freeListItem(struct ListItem *listItemToFree)
 
 int _freeTask(struct Task *taskToFree)
 {
+  if(taskToFree != NULL)
   free(taskToFree);
   return 0;
 }
@@ -184,6 +191,8 @@ void addTaskToTaskList(struct TaskList *taskList, struct Task *task)
 
   //printf("ITEM: %x\n", item);//DEBUG
 
+  //Set current to the point at the last item in the listOfTasks
+
   // If list is empty and uninitialised set it up.
   if(taskList->head == NULL)
   {
@@ -192,6 +201,12 @@ void addTaskToTaskList(struct TaskList *taskList, struct Task *task)
   }
   else
   {
+    taskList->current = taskList->head;
+    while(taskList->current->nextItem != NULL)
+    {
+      taskList->current = taskList->current->nextItem;
+    }
+    
     taskList->current->nextItem = item;
     taskList->current = item;
   }
