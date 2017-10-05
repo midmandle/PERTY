@@ -4,20 +4,23 @@
 
 class PertyTestSuite : public CxxTest::TestSuite
 {
-  struct Task *task1 = newTask();
-  struct Task *task2 = newTask();
-  struct TaskList *testList = newTaskList();
+  struct Task *task1;
+  struct Task *task2;
+  struct TaskList *testList;
 
   public:
     void setUp()
     {
-      task1->optimistic = 1;
-      task1->estimated = 3;
-      task1->pesimistic = 12;
+      task1 = newTask();
+      task2 = newTask();
+      testList = newTaskList();
+      task1->optimistic = 1.0f;
+      task1->estimated = 3.0f;
+      task1->pesimistic = 12.0f;
 
-      task2->optimistic = 1;
-      task2->estimated = 1.5;
-      task2->pesimistic = 14;
+      task2->optimistic = 1.0f;
+      task2->estimated = 1.5f;
+      task2->pesimistic = 14.0f;
 
       task1->expected = expectedDuration(task1);
       task1->standardDeviation = standardDeviation(task1);
@@ -25,15 +28,22 @@ class PertyTestSuite : public CxxTest::TestSuite
       task2->standardDeviation = standardDeviation(task2);
     }
 
-    void helper_showListPointers(TaskList testList)
+    void tearDown()
+    {
+      //This has been confirmed working but should be done manually.
+      //freeTaskList(testList);
+    }
+
+    void helper_showListPointers(struct TaskList *testList)
     {
       int i = 0;
-      while(testList.current != NULL)
+      testList->current = testList->head;
+      printf("\n");
+      while(testList->current != NULL)
       {
-        printf("[%d]: %x\n", i, testList.current);
         i++;
-        printf("CURRENT: %x %x NEXT: %x %x\n",&testList.current->item, testList.current->item, &testList.current->nextItem, testList.current->nextItem);
-        testList.current = testList.current->nextItem;
+        printf("[%d] CURRENT: %p\tNEXT: %p\n", i, testList->current, testList->current->nextItem);
+        testList->current = testList->current->nextItem;
       }
     }
 
@@ -110,6 +120,15 @@ class PertyTestSuite : public CxxTest::TestSuite
       //helper_showListPointers(testList);
     }
 
+    void test_addMultipleTasksToList(void)
+    {
+      addMultipleTasksToList(testList, 2, task1, task2);
+      helper_showListPointers(testList);
+
+      TS_ASSERT_EQUALS(testList->head->item, task1);
+      TS_ASSERT_EQUALS(testList->head->nextItem->item, task2);
+    }
+
     void test_freeTaskList(void)
     {
       addTaskToTaskList(testList, task1);
@@ -120,4 +139,32 @@ class PertyTestSuite : public CxxTest::TestSuite
       TS_ASSERT(testList->head->item == 0);
       TS_ASSERT(testList->current->item == 0);
     }
+
+    void test_calculateExpectedForFullTaskList(void)
+    {
+      addTaskToTaskList(testList, task1);
+      addTaskToTaskList(testList, task2);
+
+      processTaskList(testList);
+
+      float testExpectedValue = 7.67f;
+      float actualExpectedValue = calculateExpectedForTaskList(testList);
+
+      TS_ASSERT_EQUALS(testExpectedValue, actualExpectedValue);
+    }
+
+    void test_calculateStdDevForFullTaskList(void)
+    {
+      addTaskToTaskList(testList,task1);
+      addTaskToTaskList(testList,task2);
+
+      processTaskList(testList);
+
+      //Sqrt of the sum of squares of StdDevs
+      float testStdDevValue = 2.84f;
+      float actualStdDevValue = calculateStdDevForTaskList(testList);
+
+      TS_ASSERT_EQUALS(testStdDevValue, actualStdDevValue);
+    }
+
 };

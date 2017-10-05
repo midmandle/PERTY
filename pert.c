@@ -1,6 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
+
 
 #include "pert.h"
 
@@ -57,6 +55,36 @@ void  processTaskList(struct TaskList *taskList)
     taskList->current->item->worstCaseEstimate = worstCaseEstimate(1,taskToBeProcessed);
     taskList->current = taskList->current->nextItem;
   }
+}
+
+//Calculate combined expectedDuration for entire TaskList
+float calculateExpectedForTaskList(struct TaskList *taskList)
+{
+  float combinedExpected = 0.0f;
+  taskList->current = taskList->head;
+
+  while(taskList->current != NULL)
+  {
+    combinedExpected += taskList->current->item->expected;
+    taskList->current = taskList->current->nextItem;
+  }
+
+  return combinedExpected;
+}
+
+//Calculate combined standardDeviation for entire TaskList
+float calculateStdDevForTaskList(struct TaskList *taskList)
+{
+  float combinedStdDev = 0.0f;
+  taskList->current = taskList->head;
+
+  while(taskList->current != NULL)
+  {
+    combinedStdDev += powf((taskList->current->item->standardDeviation),2);
+    taskList->current = taskList->current->nextItem;
+  }
+
+  return roundf(sqrt(combinedStdDev) *100)/100;
 }
 
 //################# END OF PERT calculations #############################
@@ -171,5 +199,20 @@ void addTaskToTaskList(struct TaskList *taskList, struct Task *task)
   return;
 }
 
+//Use <stdarg.h> to allow variable numbers of function arguments (variadic functions).
+void addMultipleTasksToList(struct TaskList *taskList, int count, ...)
+{
+  va_list listOfTasks;
+  int i = 0;
+
+  va_start(listOfTasks, count);
+
+  for(int i = 0; i < count; i++)
+  {
+    addTaskToTaskList(taskList, va_arg(listOfTasks, struct Task *));
+  }
+
+  va_end(listOfTasks);
+}
 
 //################# END OF LINKED LIST IMPLEMENTATION ###########################
