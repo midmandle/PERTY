@@ -1,5 +1,3 @@
-
-
 #include "pert.h"
 
 struct ListItem *_freeTaskListRecurse(struct ListItem *headPointer);
@@ -42,6 +40,27 @@ float worstCaseEstimate(float multiplier, struct Task *task)
   return task->expected + (multiplier * task->standardDeviation);
 }
 
+float calculatePriority(float weight, float time)
+{
+  return weight/time;
+}
+
+void calculateTaskPriority(struct Task *task)
+{
+  task->priorityBest = calculatePriority(task->weight, task->bestCaseEstimate);
+  task->priorityExpected = calculatePriority(task->weight, task->expected);
+  task->priorityWorst = calculatePriority(task->weight, task->worstCaseEstimate);
+}
+
+//Calculate PERT values for a Task
+void processTask(struct Task *task)
+{
+  task->expected = expectedDuration(task);
+  task->standardDeviation = standardDeviation(task);
+  task->bestCaseEstimate = bestCaseEstimate(1,task);
+  task->worstCaseEstimate = worstCaseEstimate(1,task);
+}
+
 //Calculate PERT values for each Task in an array.
 void  processTaskList(struct TaskList *taskList)
 {
@@ -50,9 +69,7 @@ void  processTaskList(struct TaskList *taskList)
   {
     Task *taskToBeProcessed = taskList->current->item;
     taskList->current->item->expected = expectedDuration(taskToBeProcessed);
-    taskList->current->item->standardDeviation = standardDeviation(taskToBeProcessed);
-    taskList->current->item->bestCaseEstimate = bestCaseEstimate(1,taskToBeProcessed);
-    taskList->current->item->worstCaseEstimate = worstCaseEstimate(1,taskToBeProcessed);
+    processTask(taskToBeProcessed);
     taskList->current = taskList->current->nextItem;
   }
 
@@ -150,7 +167,8 @@ struct Task *newTask(float optimistic, float estimated, float pesimistic, float 
 
 int freeTaskList(struct TaskList *taskListToFree)
 {
-  _freeTaskListRecurse(taskListToFree->head);
+  if(taskListToFree->head != NULL)
+    _freeTaskListRecurse(taskListToFree->head);
   free(taskListToFree);
   return 0;
 }
@@ -206,7 +224,7 @@ void addTaskToTaskList(struct TaskList *taskList, struct Task *task)
     {
       taskList->current = taskList->current->nextItem;
     }
-    
+
     taskList->current->nextItem = item;
     taskList->current = item;
   }

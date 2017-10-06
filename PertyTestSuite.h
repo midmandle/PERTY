@@ -11,11 +11,8 @@ class PertyTestSuite : public CxxTest::TestSuite
 
   public:
 
-    PertyTestSuite()
+    void setUp()
     {
-      //This is in the wrong place. Needs removal.
-      testList = newTaskList();
-
       task1 = newTask();
       task2 = newTask();
       task3 = newTask(1.0f,3.0f,12.0f,3);
@@ -27,28 +24,6 @@ class PertyTestSuite : public CxxTest::TestSuite
       task2->optimistic = 1.0f;
       task2->estimated = 1.5f;
       task2->pesimistic = 14.0f;
-
-      addTaskToTaskList(testList, task1);
-      addTaskToTaskList(testList, task2);
-      addTaskToTaskList(testList, task3);
-
-      processTaskList(testList);
-    }
-
-    static PertyTestSuite* createSuite()
-    {
-      return new PertyTestSuite();
-    }
-
-    static void destroySuite(PertyTestSuite* suite)
-    {
-      freeTaskList(suite->testList);
-      delete suite;
-    }
-
-    void setUp()
-    {
-
     }
 
     void tearDown()
@@ -73,30 +48,69 @@ class PertyTestSuite : public CxxTest::TestSuite
     {
       TS_ASSERT_EQUALS(4.17f , expectedDuration(task1));
       TS_ASSERT_EQUALS(3.5f , expectedDuration(task2));
+
+      free(task1);
+      free(task2);
+      free(task3);
     }
 
     void test_PERTStdDeviationFunction(void)
     {
       TS_ASSERT_EQUALS(1.83f , standardDeviation(task1));
       TS_ASSERT_EQUALS(2.17f , standardDeviation(task2));
+
+      free(task1);
+      free(task2);
+      free(task3);
     }
 
     void test_bestCaseEstimateFunction(void)
     {
+      processTask(task1);
+      processTask(task2);
       TS_ASSERT_EQUALS(4.17f-1.83f , bestCaseEstimate(1, task1));
       TS_ASSERT_EQUALS(3.5f-2.17f , bestCaseEstimate(1, task2));
       TS_ASSERT_EQUALS(4.17f-(1.83f*2) , bestCaseEstimate(2, task1));
+
+      free(task1);
+      free(task2);
+      free(task3);
     }
 
     void test_worstCaseEstimateFunction(void)
     {
+      processTask(task1);
+      processTask(task2);
       TS_ASSERT_EQUALS(4.17f+1.83f , worstCaseEstimate(1, task1));
       TS_ASSERT_EQUALS(3.5f+2.17f , worstCaseEstimate(1, task2));
       TS_ASSERT_EQUALS(4.17f+(1.83f*2) , worstCaseEstimate(2, task1));
+
+      free(task1);
+      free(task2);
+      free(task3);
+    }
+
+    void test_processTaskFunction(void)
+    {
+      TS_ASSERT(task1->expected == 0);
+      TS_ASSERT(task1->standardDeviation == 0);
+      TS_ASSERT(task1->bestCaseEstimate == 0);
+      TS_ASSERT(task1->worstCaseEstimate == 0);
+      processTask(task1);
+      TS_ASSERT(task1->expected != 0);
+      TS_ASSERT(task1->standardDeviation != 0);
+      TS_ASSERT(task1->bestCaseEstimate != 0);
+      TS_ASSERT(task1->worstCaseEstimate != 0);
+
+      free(task1);
+      free(task2);
+      free(task3);
     }
 
     void test_processTaskListFunction(void)
     {
+      testList = newTaskList();
+      addMultipleTasksToList(testList, 3, task1, task2, task3);
       processTaskList(testList);
 
       float calculatedExpectedValue = 0;
@@ -112,11 +126,12 @@ class PertyTestSuite : public CxxTest::TestSuite
         calculatedBestCaseValue = bestCaseEstimate(1,testList->current->item);
         calculatedWorstCaseValue = worstCaseEstimate(1,testList->current->item);
         TS_ASSERT_EQUALS(calculatedExpectedValue, testList->current->item->expected);
-        TS_ASSERT_EQUALS(calculatedStdDevValue, testList->current->item->expected);
-        TS_ASSERT_EQUALS(calculatedBestCaseValue, testList->current->item->expected);
-        TS_ASSERT_EQUALS(calculatedWorstCaseValue, testList->current->item->expected);
+        TS_ASSERT_EQUALS(calculatedStdDevValue, testList->current->item->standardDeviation);
+        TS_ASSERT_EQUALS(calculatedBestCaseValue, testList->current->item->bestCaseEstimate);
+        TS_ASSERT_EQUALS(calculatedWorstCaseValue, testList->current->item->worstCaseEstimate);
         testList->current = testList->current->nextItem;
       }
+      freeTaskList(testList);
     }
 
     void test_newTask()
@@ -135,6 +150,10 @@ class PertyTestSuite : public CxxTest::TestSuite
 
       free(taskA);
       free(taskB);
+
+      free(task1);
+      free(task2);
+      free(task3);
     }
 
     void test_newListItem()
@@ -145,6 +164,9 @@ class PertyTestSuite : public CxxTest::TestSuite
       TS_ASSERT(currentListItem != NULL);
 
       free(currentListItem);
+      free(task1);
+      free(task2);
+      free(task3);
     }
 
     void test_newTaskList()
@@ -155,6 +177,9 @@ class PertyTestSuite : public CxxTest::TestSuite
       TS_ASSERT(currentTestList != NULL);
 
       free(currentTestList);
+      free(task1);
+      free(task2);
+      free(task3);
     }
 
     void test_addNewTaskToList(void)
@@ -167,6 +192,9 @@ class PertyTestSuite : public CxxTest::TestSuite
       TS_ASSERT(currentTestList->head != NULL);
 
       freeTaskList(currentTestList);
+      free(task1);
+      free(task2);
+      free(task3);
     }
 
     void test_addMultipleTasksToList(void)
@@ -177,27 +205,39 @@ class PertyTestSuite : public CxxTest::TestSuite
 
       addMultipleTasksToList(currentTestList, 2, taskToAddA, taskToAddB);
 
-      TS_ASSERT_EQUALS(testList->head->item, taskToAddA);
-      TS_ASSERT_EQUALS(testList->head->nextItem->item, taskToAddB);
+      TS_ASSERT_EQUALS(currentTestList->head->item, taskToAddA);
+      TS_ASSERT_EQUALS(currentTestList->head->nextItem->item, taskToAddB);
 
       freeTaskList(currentTestList);
+      free(task1);
+      free(task2);
+      free(task3);
     }
 
     void test_calculateExpectedForFullTaskList(void)
     {
+      testList = newTaskList();
+      addMultipleTasksToList(testList, 3, task1, task2, task3);
+      processTaskList(testList);
 
-      float testExpectedValue = 7.67f;
+      float testExpectedValue = (task1->expected + task2->expected + task3->expected);
 
       TS_ASSERT_EQUALS(testExpectedValue, testList->expectedForTaskList);
+
+      freeTaskList(testList);
     }
 
     void test_calculateStdDevForFullTaskList(void)
     {
+      testList = newTaskList();
+      addMultipleTasksToList(testList, 3, task1, task2, task3);
+      processTaskList(testList);
+      //printf("\nstd1 = %f\tstd2 = %f\tstd3 = %f\n", task1->standardDeviation, task2->standardDeviation, task3->standardDeviation);
       //Sqrt of the sum of squares of StdDevs
-      float testStdDevValue = 2.84f;
-      calculateStdDevForTaskList(testList);
+      float testStdDevValue = roundf(3.3773*100)/100;
 
       TS_ASSERT_EQUALS(testStdDevValue, testList->stdDevForTaskList);
+      freeTaskList(testList);
     }
 
 };

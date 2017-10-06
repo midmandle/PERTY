@@ -1,3 +1,6 @@
+#ifndef __PERT_H__
+#define __PERT_H
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
@@ -12,7 +15,9 @@ struct Task {
   float bestCaseEstimate;
   float worstCaseEstimate;
 
-  float priority;
+  float priorityBest;
+  float priorityExpected;
+  float priorityWorst;
   float weight;
 };
 
@@ -35,6 +40,7 @@ float standardDeviation(struct Task *task);
 float bestCaseEstimate(float multiplier, struct Task *task);
 float worstCaseEstimate(float multiplier, struct Task *task);
 
+void processTask(struct Task *task);
 void processTaskList(struct TaskList *taskList);
 void calculateExpectedForTaskList(struct TaskList *taskList);
 void calculateStdDevForTaskList(struct TaskList *taskList);
@@ -48,3 +54,5 @@ struct Task *newTask(float optimistic, float estimated, float pesimistic, float 
 int freeTaskList(struct TaskList *taskListToFree);
 void addTaskToTaskList(struct TaskList *taskList, struct Task *task);
 void addMultipleTasksToList(struct TaskList *taskList, int count, ...);
+
+#endif
