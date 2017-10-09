@@ -129,6 +129,7 @@ class PertyTestSuite : public CxxTest::TestSuite
         TS_ASSERT_EQUALS(calculatedStdDevValue, testList->current->item->standardDeviation);
         TS_ASSERT_EQUALS(calculatedBestCaseValue, testList->current->item->bestCaseEstimate);
         TS_ASSERT_EQUALS(calculatedWorstCaseValue, testList->current->item->worstCaseEstimate);
+        //TODO: This function needs the addition of tests for priorityBest priorityExpected priorityWorst
         testList->current = testList->current->nextItem;
       }
       freeTaskList(testList);
@@ -158,7 +159,7 @@ class PertyTestSuite : public CxxTest::TestSuite
 
     void test_newListItem()
     {
-      //TODO
+      //TODO Needs more testing here.
       struct ListItem *currentListItem = newListItem();
 
       TS_ASSERT(currentListItem != NULL);
@@ -171,15 +172,12 @@ class PertyTestSuite : public CxxTest::TestSuite
 
     void test_newTaskList()
     {
-      //TODO
+      //TODO Needs more testing here.
       testList = newTaskList();
 
       TS_ASSERT(testList != NULL);
 
       freeTaskList(testList);
-      /*free(task1);
-      free(task2);
-      free(task3);*/
     }
 
     void test_addNewTaskToList(void)
@@ -191,9 +189,6 @@ class PertyTestSuite : public CxxTest::TestSuite
       TS_ASSERT(testList->head != NULL);
 
       freeTaskList(testList);
-      /*free(task1);
-      free(task2);
-      free(task3);*/
     }
 
     void test_addMultipleTasksToList(void)
@@ -207,9 +202,6 @@ class PertyTestSuite : public CxxTest::TestSuite
       TS_ASSERT_EQUALS(testList->head->nextItem->item, task2);
 
       freeTaskList(testList);
-      /*free(task1);
-      free(task2);
-      free(task3);*/
     }
 
     void test_calculateExpectedForFullTaskList(void)
@@ -236,6 +228,32 @@ class PertyTestSuite : public CxxTest::TestSuite
 
       TS_ASSERT_EQUALS(testStdDevValue, testList->stdDevForTaskList);
       freeTaskList(testList);
+    }
+
+    void test_calculatePriority(void)
+    {
+      task1->weight = 3;
+      processTask(task1);
+      float testPriority = (task1->weight / task1->expected);
+
+      TS_ASSERT_EQUALS(testPriority, task1->priorityExpected);
+
+      free(task1);
+    }
+
+    void test_calculateTaskPriority(void)
+    {
+      task1->weight = 3;
+      processTask(task1);
+      float testBestPriority = (task1->weight / task1->bestCaseEstimate);
+      float testExpectedPriority = (task1->weight / task1->expected);
+      float testWorstPriority = (task1->weight / task1->worstCaseEstimate);
+
+      TS_ASSERT_EQUALS(testBestPriority, task1->priorityBest);
+      TS_ASSERT_EQUALS(testExpectedPriority, task1->priorityExpected);
+      TS_ASSERT_EQUALS(testWorstPriority, task1->priorityWorst);
+
+      free(task1);
     }
 
 };

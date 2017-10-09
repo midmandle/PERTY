@@ -42,7 +42,9 @@ float worstCaseEstimate(float multiplier, struct Task *task)
 
 float calculatePriority(float weight, float time)
 {
-  return weight/time;
+  if(weight == 0)
+    return 0;
+  return (weight/time);
 }
 
 void calculateTaskPriority(struct Task *task)
@@ -59,6 +61,7 @@ void processTask(struct Task *task)
   task->standardDeviation = standardDeviation(task);
   task->bestCaseEstimate = bestCaseEstimate(1,task);
   task->worstCaseEstimate = worstCaseEstimate(1,task);
+  calculateTaskPriority(task);
 }
 
 //Calculate PERT values for each Task in an array.
@@ -68,7 +71,6 @@ void  processTaskList(struct TaskList *taskList)
   while(taskList->current != NULL)
   {
     Task *taskToBeProcessed = taskList->current->item;
-    taskList->current->item->expected = expectedDuration(taskToBeProcessed);
     processTask(taskToBeProcessed);
     taskList->current = taskList->current->nextItem;
   }
@@ -186,7 +188,7 @@ struct ListItem *_freeTaskListRecurse(struct ListItem *headPointer)
 
 int _freeListItem(struct ListItem *listItemToFree)
 {
-  //if(listItemToFree->item != NULL)
+  if(listItemToFree->item != NULL)
     _freeTask(listItemToFree->item);
   free(listItemToFree);
   return 0;

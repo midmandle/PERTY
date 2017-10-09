@@ -28,12 +28,11 @@ class PertySchedulerTestSuite : public CxxTest::TestSuite
     void test_sortScheduledTasksByPriorityHighest()
     {
       struct Scheduler *scheduler1 = newScheduler();
-      scheduler1->taskList = newTaskList();
 
-      struct Task *taskI = newTask(1,2,3,4);
-      struct Task *taskJ = newTask(5,6,7,8);
+      struct Task *taskA = newTask(1,2,3,4);
+      struct Task *taskB = newTask(5,6,7,8);
 
-      addMultipleTasksToList(scheduler1->taskList, 2, taskI, taskJ);
+      addMultipleTasksToList(scheduler1->taskList, 2, taskA, taskB);
 
       processTaskList(scheduler1->taskList);
 

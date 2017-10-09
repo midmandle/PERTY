@@ -44,6 +44,8 @@ void processTask(struct Task *task);
 void processTaskList(struct TaskList *taskList);
 void calculateExpectedForTaskList(struct TaskList *taskList);
 void calculateStdDevForTaskList(struct TaskList *taskList);
+float calculatePriority(float weight, float time);
+void calculateTaskPriority(struct Task *task);
 
 struct TaskList *newTaskList();
 

@@ -58,43 +58,55 @@ public:
 
 static class TestDescription_suite_PertyTestSuite_test_newTask : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_PertyTestSuite_test_newTask() : CxxTest::RealTestDescription( Tests_PertyTestSuite, suiteDescription_PertyTestSuite, 137, "test_newTask" ) {}
+ TestDescription_suite_PertyTestSuite_test_newTask() : CxxTest::RealTestDescription( Tests_PertyTestSuite, suiteDescription_PertyTestSuite, 138, "test_newTask" ) {}
  void runTest() { suite_PertyTestSuite.test_newTask(); }
 } testDescription_suite_PertyTestSuite_test_newTask;
 
 static class TestDescription_suite_PertyTestSuite_test_newListItem : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_PertyTestSuite_test_newListItem() : CxxTest::RealTestDescription( Tests_PertyTestSuite, suiteDescription_PertyTestSuite, 159, "test_newListItem" ) {}
+ TestDescription_suite_PertyTestSuite_test_newListItem() : CxxTest::RealTestDescription( Tests_PertyTestSuite, suiteDescription_PertyTestSuite, 160, "test_newListItem" ) {}
  void runTest() { suite_PertyTestSuite.test_newListItem(); }
 } testDescription_suite_PertyTestSuite_test_newListItem;
 
 static class TestDescription_suite_PertyTestSuite_test_newTaskList : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_PertyTestSuite_test_newTaskList() : CxxTest::RealTestDescription( Tests_PertyTestSuite, suiteDescription_PertyTestSuite, 172, "test_newTaskList" ) {}
+ TestDescription_suite_PertyTestSuite_test_newTaskList() : CxxTest::RealTestDescription( Tests_PertyTestSuite, suiteDescription_PertyTestSuite, 173, "test_newTaskList" ) {}
  void runTest() { suite_PertyTestSuite.test_newTaskList(); }
 } testDescription_suite_PertyTestSuite_test_newTaskList;
 
 static class TestDescription_suite_PertyTestSuite_test_addNewTaskToList : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_PertyTestSuite_test_addNewTaskToList() : CxxTest::RealTestDescription( Tests_PertyTestSuite, suiteDescription_PertyTestSuite, 185, "test_addNewTaskToList" ) {}
+ TestDescription_suite_PertyTestSuite_test_addNewTaskToList() : CxxTest::RealTestDescription( Tests_PertyTestSuite, suiteDescription_PertyTestSuite, 183, "test_addNewTaskToList" ) {}
  void runTest() { suite_PertyTestSuite.test_addNewTaskToList(); }
 } testDescription_suite_PertyTestSuite_test_addNewTaskToList;
 
 static class TestDescription_suite_PertyTestSuite_test_addMultipleTasksToList : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_PertyTestSuite_test_addMultipleTasksToList() : CxxTest::RealTestDescription( Tests_PertyTestSuite, suiteDescription_PertyTestSuite, 199, "test_addMultipleTasksToList" ) {}
+ TestDescription_suite_PertyTestSuite_test_addMultipleTasksToList() : CxxTest::RealTestDescription( Tests_PertyTestSuite, suiteDescription_PertyTestSuite, 194, "test_addMultipleTasksToList" ) {}
  void runTest() { suite_PertyTestSuite.test_addMultipleTasksToList(); }
 } testDescription_suite_PertyTestSuite_test_addMultipleTasksToList;
 
 static class TestDescription_suite_PertyTestSuite_test_calculateExpectedForFullTaskList : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_PertyTestSuite_test_calculateExpectedForFullTaskList() : CxxTest::RealTestDescription( Tests_PertyTestSuite, suiteDescription_PertyTestSuite, 215, "test_calculateExpectedForFullTaskList" ) {}
+ TestDescription_suite_PertyTestSuite_test_calculateExpectedForFullTaskList() : CxxTest::RealTestDescription( Tests_PertyTestSuite, suiteDescription_PertyTestSuite, 207, "test_calculateExpectedForFullTaskList" ) {}
  void runTest() { suite_PertyTestSuite.test_calculateExpectedForFullTaskList(); }
 } testDescription_suite_PertyTestSuite_test_calculateExpectedForFullTaskList;
 
 static class TestDescription_suite_PertyTestSuite_test_calculateStdDevForFullTaskList : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_PertyTestSuite_test_calculateStdDevForFullTaskList() : CxxTest::RealTestDescription( Tests_PertyTestSuite, suiteDescription_PertyTestSuite, 228, "test_calculateStdDevForFullTaskList" ) {}
+ TestDescription_suite_PertyTestSuite_test_calculateStdDevForFullTaskList() : CxxTest::RealTestDescription( Tests_PertyTestSuite, suiteDescription_PertyTestSuite, 220, "test_calculateStdDevForFullTaskList" ) {}
  void runTest() { suite_PertyTestSuite.test_calculateStdDevForFullTaskList(); }
 } testDescription_suite_PertyTestSuite_test_calculateStdDevForFullTaskList;
+
+static class TestDescription_suite_PertyTestSuite_test_calculatePriority : public CxxTest::RealTestDescription {
+public:
+ TestDescription_suite_PertyTestSuite_test_calculatePriority() : CxxTest::RealTestDescription( Tests_PertyTestSuite, suiteDescription_PertyTestSuite, 233, "test_calculatePriority" ) {}
+ void runTest() { suite_PertyTestSuite.test_calculatePriority(); }
+} testDescription_suite_PertyTestSuite_test_calculatePriority;
+
+static class TestDescription_suite_PertyTestSuite_test_calculateTaskPriority : public CxxTest::RealTestDescription {
+public:
+ TestDescription_suite_PertyTestSuite_test_calculateTaskPriority() : CxxTest::RealTestDescription( Tests_PertyTestSuite, suiteDescription_PertyTestSuite, 244, "test_calculateTaskPriority" ) {}
+ void runTest() { suite_PertyTestSuite.test_calculateTaskPriority(); }
+} testDescription_suite_PertyTestSuite_test_calculateTaskPriority;
 
