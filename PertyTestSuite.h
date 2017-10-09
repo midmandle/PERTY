@@ -172,46 +172,44 @@ class PertyTestSuite : public CxxTest::TestSuite
     void test_newTaskList()
     {
       //TODO
-      struct TaskList *currentTestList = newTaskList();
+      testList = newTaskList();
 
-      TS_ASSERT(currentTestList != NULL);
+      TS_ASSERT(testList != NULL);
 
-      free(currentTestList);
-      free(task1);
+      freeTaskList(testList);
+      /*free(task1);
       free(task2);
-      free(task3);
+      free(task3);*/
     }
 
     void test_addNewTaskToList(void)
     {
-      struct TaskList *currentTestList = newTaskList();
-      struct Task *taskToAdd = newTask(1,2,3,4);
+      testList = newTaskList();
 
-      TS_ASSERT(currentTestList->head == NULL);
-      addTaskToTaskList(currentTestList, taskToAdd);
-      TS_ASSERT(currentTestList->head != NULL);
+      TS_ASSERT(testList->head == NULL);
+      addTaskToTaskList(testList, task1);
+      TS_ASSERT(testList->head != NULL);
 
-      freeTaskList(currentTestList);
-      free(task1);
+      freeTaskList(testList);
+      /*free(task1);
       free(task2);
-      free(task3);
+      free(task3);*/
     }
 
     void test_addMultipleTasksToList(void)
     {
-      struct TaskList *currentTestList = newTaskList();
-      struct Task *taskToAddA = newTask(1,2,3,4);
-      struct Task *taskToAddB = newTask(5,6,7,8);
+      testList = newTaskList();
 
-      addMultipleTasksToList(currentTestList, 2, taskToAddA, taskToAddB);
 
-      TS_ASSERT_EQUALS(currentTestList->head->item, taskToAddA);
-      TS_ASSERT_EQUALS(currentTestList->head->nextItem->item, taskToAddB);
+      addMultipleTasksToList(testList, 2, task1, task2);
 
-      freeTaskList(currentTestList);
-      free(task1);
+      TS_ASSERT_EQUALS(testList->head->item, task1);
+      TS_ASSERT_EQUALS(testList->head->nextItem->item, task2);
+
+      freeTaskList(testList);
+      /*free(task1);
       free(task2);
-      free(task3);
+      free(task3);*/
     }
 
     void test_calculateExpectedForFullTaskList(void)

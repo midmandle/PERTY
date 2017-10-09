@@ -82,19 +82,19 @@ public:
 
 static class TestDescription_suite_PertyTestSuite_test_addMultipleTasksToList : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_PertyTestSuite_test_addMultipleTasksToList() : CxxTest::RealTestDescription( Tests_PertyTestSuite, suiteDescription_PertyTestSuite, 200, "test_addMultipleTasksToList" ) {}
+ TestDescription_suite_PertyTestSuite_test_addMultipleTasksToList() : CxxTest::RealTestDescription( Tests_PertyTestSuite, suiteDescription_PertyTestSuite, 199, "test_addMultipleTasksToList" ) {}
  void runTest() { suite_PertyTestSuite.test_addMultipleTasksToList(); }
 } testDescription_suite_PertyTestSuite_test_addMultipleTasksToList;
 
 static class TestDescription_suite_PertyTestSuite_test_calculateExpectedForFullTaskList : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_PertyTestSuite_test_calculateExpectedForFullTaskList() : CxxTest::RealTestDescription( Tests_PertyTestSuite, suiteDescription_PertyTestSuite, 217, "test_calculateExpectedForFullTaskList" ) {}
+ TestDescription_suite_PertyTestSuite_test_calculateExpectedForFullTaskList() : CxxTest::RealTestDescription( Tests_PertyTestSuite, suiteDescription_PertyTestSuite, 215, "test_calculateExpectedForFullTaskList" ) {}
  void runTest() { suite_PertyTestSuite.test_calculateExpectedForFullTaskList(); }
 } testDescription_suite_PertyTestSuite_test_calculateExpectedForFullTaskList;
 
 static class TestDescription_suite_PertyTestSuite_test_calculateStdDevForFullTaskList : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_PertyTestSuite_test_calculateStdDevForFullTaskList() : CxxTest::RealTestDescription( Tests_PertyTestSuite, suiteDescription_PertyTestSuite, 230, "test_calculateStdDevForFullTaskList" ) {}
+ TestDescription_suite_PertyTestSuite_test_calculateStdDevForFullTaskList() : CxxTest::RealTestDescription( Tests_PertyTestSuite, suiteDescription_PertyTestSuite, 228, "test_calculateStdDevForFullTaskList" ) {}
  void runTest() { suite_PertyTestSuite.test_calculateStdDevForFullTaskList(); }
 } testDescription_suite_PertyTestSuite_test_calculateStdDevForFullTaskList;
 
