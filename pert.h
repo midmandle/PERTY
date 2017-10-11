@@ -22,8 +22,8 @@ struct Task {
 };
 
 struct ListItem {
-  struct Task *item;
-  struct ListItem *nextItem;
+  struct Task *item = NULL;
+  struct ListItem *nextItem = NULL;
 };
 
 struct TaskList {
