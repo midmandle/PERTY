@@ -1,6 +1,6 @@
 # PERTY
 
-PERTY UMMARY:
+PERTY SUMMARY:
 
 - Collaborative cloud-based time management and task scheduling tool.
 - Uses the concept of PERT https://en.wikipedia.org/wiki/Program_evaluation_and_review_technique#Management_tools to make task time estimates.
