@@ -23,8 +23,9 @@ class SortingTestSuite : public CxxTest::TestSuite
       int arrayB[10] = {1,2,3,4,5,6,7,8,9,10};
 
       TS_ASSERT_EQUALS(0, compareIntArrays(arrayA, arrayB, 10));
-      bubbleSort(arrayA, sizeof(int), sizeof(arrayA), 0);
+      bubbleSort(arrayA, sizeof(int), sizeof(arrayA), 0, sizeof(int));
       TS_ASSERT_EQUALS(1, compareIntArrays(arrayA, arrayB, 10));
+
     }
 
     void test_insertionSort(void)

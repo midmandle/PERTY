@@ -34,13 +34,13 @@ public:
 
 static class TestDescription_suite_SortingTestSuite_test_insertionSort : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_SortingTestSuite_test_insertionSort() : CxxTest::RealTestDescription( Tests_SortingTestSuite, suiteDescription_SortingTestSuite, 30, "test_insertionSort" ) {}
+ TestDescription_suite_SortingTestSuite_test_insertionSort() : CxxTest::RealTestDescription( Tests_SortingTestSuite, suiteDescription_SortingTestSuite, 31, "test_insertionSort" ) {}
  void runTest() { suite_SortingTestSuite.test_insertionSort(); }
 } testDescription_suite_SortingTestSuite_test_insertionSort;
 
 static class TestDescription_suite_SortingTestSuite_test_quickSort : public CxxTest::RealTestDescription {
 public:
- TestDescription_suite_SortingTestSuite_test_quickSort() : CxxTest::RealTestDescription( Tests_SortingTestSuite, suiteDescription_SortingTestSuite, 37, "test_quickSort" ) {}
+ TestDescription_suite_SortingTestSuite_test_quickSort() : CxxTest::RealTestDescription( Tests_SortingTestSuite, suiteDescription_SortingTestSuite, 38, "test_quickSort" ) {}
  void runTest() { suite_SortingTestSuite.test_quickSort(); }
 } testDescription_suite_SortingTestSuite_test_quickSort;
 
