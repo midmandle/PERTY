@@ -58,6 +58,21 @@ class pertEquationTests(unittest.TestCase):
         worstCasePriority = taskA.weight/taskA.worstCase
         self.assertEqual(worstCasePriority, taskA.priorityWorst)
 
+    def test_addTaskToList(self):
+        estimate = 3.0
+        optimistic = 1.0
+        pessimistic = 12.0
+
+        taskA = Task(optimistic, estimate, pessimistic, 3)
+        taskB = Task(1.0, 1.5, 14.0, 4)
+
+        taskList = createNewTaskList()
+        self.assertEqual(taskList.itemCount, 0) #Originally no items.
+        taskList.add(taskA)
+        taskList.add(taskB)
+        self.assertEqual(taskList.itemCount, 2) #Now two should exist.
+
+
 
 
 if __name__ == '__main__':
