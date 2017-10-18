@@ -18,3 +18,8 @@ def worstCaseEstimate(expectedDuration, standardDeviation, multiplier):
 
 def priorityCalculation(weight, time):
     return weight/time
+
+def taskPriorityCalculation(weight, bestCase, expected, worstCase)
+    priorityBest = priorityCalculation(weight, bestCase)
+    priorityExpected = priorityCalculation(weight, expected)
+    priorityWorst = priorityCalculation(weight, worstCase)
