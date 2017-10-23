@@ -19,6 +19,10 @@ class RootLayout(Screen):
 class AddTask(Screen):
     pass
 
+#Screen layout for AddTask
+class AddTaskList(Screen):
+    pass
+
 #Screen layout for NewWorkflow
 class NewWorkflow(Screen):
     pass
@@ -28,6 +32,7 @@ sm = ScreenManager()
 
 sm.add_widget(RootLayout(name="root"))
 sm.add_widget(AddTask(name="addTask"))
+sm.add_widget(AddTaskList(name="addTaskList"))
 sm.add_widget(NewWorkflow(name="newWorkflow"))
 
 #Main App class.

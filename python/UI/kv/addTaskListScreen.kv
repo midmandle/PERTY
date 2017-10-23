@@ -1,0 +1,46 @@
+<AddTaskList>
+    GridLayout:
+        cols:2
+        rows:6
+        padding: [10,10,10,10]
+        spacing: 10
+        minimum_size: (250,250)
+
+        Label:
+            size_hint:None,None
+            size: 150,30
+            text:"Task List Name: "
+        TextInput:
+            size_hint:None,None
+            size: 150,30
+            text:""
+
+        Label:
+            size_hint:None,None
+            size: 150,30
+            text:"Task List Description: "
+        TextInput:
+            size_hint:None,None
+            size: 150,200
+            text:""
+
+        Label:
+            size_hint:None,None
+            size: 150,30
+            text:"!!TODO!! Tasks In List: "
+        TextInput:
+            size_hint:None,None
+            size: 150,30
+            text:""
+
+        Button:
+            size_hint:None,None
+            size: 150,30
+            text: "Add Task List"
+        Button:
+            size_hint:None,None
+            size: 150,30
+            text: "Go Back"
+            on_press:
+                root.manager.transition.direction = 'right'
+                root.manager.current="root"
