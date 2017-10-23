@@ -15,17 +15,17 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 class RootLayout(Screen):
     pass
 
-class OptionOne(Screen):
+class AddTask(Screen):
     pass
 
-class OptionTwo(Screen):
+class NewWorkflow(Screen):
     pass
 
 sm = ScreenManager()
 
 sm.add_widget(RootLayout(name="root"))
-sm.add_widget(OptionOne(name="option1"))
-sm.add_widget(OptionTwo(name="option2"))
+sm.add_widget(AddTask(name="addTask"))
+sm.add_widget(NewWorkflow(name="newWorkflow"))
 
 #Main App class.
 class MainApp(App):

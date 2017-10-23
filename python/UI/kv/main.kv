@@ -1,33 +1,12 @@
 <RootLayout>:
-    GridLayout:
-        cols:2
-        rows:1
+    BoxLayout:
         Button:
-            text:"Go to option 1"
+            text:"Add Task"
             on_press:
                 root.manager.transition.direction = 'left'
-                root.manager.current="option1"
+                root.manager.current="addTask"
         Button:
-            text:"Go to option 2"
+            text:"New Workflow"
             on_press:
                 root.manager.transition.direction = 'left'
-                root.manager.current="option2"
-
-<OptionOne>:
-    BoxLayout:
-        Label:
-            text:"Option 1"
-        Button:
-            text:"Go Back"
-            on_press:
-                root.manager.transition.direction = 'right'
-                root.manager.current="root"
-<OptionTwo>:
-    BoxLayout:
-        Label:
-            text:"Option 2"
-        Button:
-            text:"Go Back"
-            on_press:
-                root.manager.transition.direction = 'right'
-                root.manager.current="root"
+                root.manager.current="newWorkflow"
