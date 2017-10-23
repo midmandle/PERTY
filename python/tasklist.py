@@ -2,6 +2,7 @@ class TaskList:
     def __init__(self):
         self.taskCount = 0
         self.listOfTasks = list()
+        self.bestCase
 
     def addTask(self, taskToAdd):
         self.listOfTasks.append(taskToAdd)
@@ -10,3 +11,5 @@ class TaskList:
     def removeTask(self, taskToRemove):
         self.listOfTasks.remove(taskToRemove)
         self.taskCount -= 1
+
+    def 
