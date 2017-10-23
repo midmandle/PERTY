@@ -15,12 +15,15 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 class RootLayout(Screen):
     pass
 
+#Screen layout for AddTask
 class AddTask(Screen):
     pass
 
+#Screen layout for NewWorkflow
 class NewWorkflow(Screen):
     pass
 
+#Add screens to screen manager for management.
 sm = ScreenManager()
 
 sm.add_widget(RootLayout(name="root"))
