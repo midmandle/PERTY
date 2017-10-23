@@ -1,0 +1,12 @@
+<RootLayout>:
+    BoxLayout:
+        Button:
+            text:"Add Task"
+            on_press:
+                root.manager.transition.direction = 'left'
+                root.manager.current="addTask"
+        Button:
+            text:"New Workflow"
+            on_press:
+                root.manager.transition.direction = 'left'
+                root.manager.current="newWorkflow"
