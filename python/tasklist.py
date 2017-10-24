@@ -12,5 +12,5 @@ class TaskList:
         self.listOfTasks.remove(taskToRemove)
         self.taskCount -= 1
 
-    def sortTaskList(self, taskListToSort, propertyToSort, ascendOrDescend):
+    def sortTaskList(self, propertyToSort, ascendOrDescend):
         #self.listOfTasks = taskListToSort
