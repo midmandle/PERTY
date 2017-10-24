@@ -39,9 +39,22 @@ class taskListOperationTests(unittest.TestCase):
         self.assertEqual(self.taskList.taskCount, 1)
         self.taskList.removeTask(self.taskB)
         self.assertEqual(self.taskList.taskCount, 0)
-    '''
+
     def test_sortTaskList(self):
-        print("TODO")
+        #self.assertEqual(self.taskList.taskCount, 0)
+        self.taskList.addTask(self.taskA)
+        self.taskList.addTask(self.taskB)
+        self.taskList.addTask(Task(1.0, 2.0, 15.0, 5))
+        self.assertEqual(self.taskList.taskCount, 3)
+
+        self.taskList.sortTaskList(self.taskList, optimistic, ascend)
+        self.taskList.assertGreater(self.taskList.listOfTasks[1].optimistic, self.taskList.listOfTasks[0].optimistic)
+
+        self.taskList.sortTaskList(self.taskList, pessimistic, descend)
+        self.taskList.assertLess(self.taskList.listOfTasks[1].pessimistic, self.taskList.listOfTasks[0].pessimistic)
+
+
+    '''
 
     def test_calculateTaskListExpected(self):
         print("TODO")
