@@ -92,11 +92,6 @@ class pertEquationTests(unittest.TestCase):
         taskList.removeTask(taskB)
         self.assertEqual(taskList.taskCount, 0)
 
-    def test_processTaskList(self):
-
-
-    def test_calculateStdDeviation(self):
-
 
 if __name__ == '__main__':
     unittest.main()
