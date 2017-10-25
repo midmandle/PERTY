@@ -1,0 +1,25 @@
+provider:
+  name: faas
+  gateway: http://127.0.0.1:8080
+
+functions:
+  func_expected-duration:
+    lang: python
+    handler: ./func_expected-duration/
+    image: faas-func_expected-duration
+  func_standard-deviation:
+    lang: python
+    handler: ./func_standard-deviation/
+    image: faas-func_standard-deviation
+  func_best-case-estimate:
+    lang: python
+    handler: ./func_best-case-estimate/
+    image: faas-func_best-case-estimate
+  func_worst-case-estimate:
+    lang: python
+    handler: ./func_worst-case-estimate/
+    image: faas-func_worst-case-estimate
+  func_priority-calculation:
+    lang: python
+    handler: ./func_priority-calculation/
+    image: faas-func_priority-calculation

@@ -1,0 +1,49 @@
+import requests
+import json
+import unittest
+
+class faasFunctionsTests(unittest.TestCase):
+    def setUp(self):
+        self.estimate = 3.0
+        self.optimistic = 1.0
+        self.pessimistic = 12.0
+
+    def tearDown(self):
+        self.estimate = 0
+        self.optimistic = 0
+        self.pessimistic = 0
+
+    def test_func_expected_duration(self):
+        jsonData = {"estimate":self.estimate, "optimistic":self.optimistic, "pessimistic":self.pessimistic}
+        r = requests.post('http://127.0.0.1:8080/function/func_expected-duration', json = jsonData)
+
+        jsonResponse = r.json()
+        self.assertEqual(jsonResponse["expected"], 4.17)
+
+    def test_func_standard_deviation(self):
+        jsonData = {"estimate":self.estimate, "optimistic":self.optimistic, "pessimistic":self.pessimistic}
+        r = requests.post('http://127.0.0.1:8080/function/func_standard-deviation', json = jsonData)
+
+        jsonResponse = r.json()
+        self.assertEqual(jsonResponse["standardDeviation"], 1.83)
+
+    def test_func_best_case_estimate(self):
+        jsonData = {"expectedDuration": 4.17, "standardDeviation":1.83, "multiplier":1}
+        r = requests.post('http://127.0.0.1:8080/function/func_best-case-estimate', json = jsonData)
+
+        jsonResponse = r.json()
+        self.assertEqual(jsonResponse["bestCaseEstimate"], 2.34)
+
+    def test_func_worst_case_estimate(self):
+        jsonData = {"expectedDuration": 4.17, "standardDeviation":1.83, "multiplier":1}
+        r = requests.post('http://127.0.0.1:8080/function/func_worst-case-estimate', json = jsonData)
+
+        jsonResponse = r.json()
+        self.assertEqual(jsonResponse["worstCaseEstimate"], 6.0)
+
+    def test_func_priority_calculation(self):
+        jsonData = {"time":4.17,"weight":3}
+        r = requests.post('http://127.0.0.1:8080/function/func_priority-calculation', json = jsonData)
+
+        jsonResponse = r.json()
+        self.assertEqual(jsonResponse["priority"], 0.72)
