@@ -1,6 +1,7 @@
 import unittest
 from task import Task
 from tasklist import TaskList
+from workflow import Workflow
 
 class workflowOperationTests(unittest.TestCase):
     def setUp(self):
@@ -21,22 +22,73 @@ class workflowOperationTests(unittest.TestCase):
     def tearDown(self):
         self.taskA = None
         self.taskB = None
-        self.taskC = None
-        self.taskD = None
-        self.taskE = None
 
         self.taskList.removeTask(self.taskC)
         self.taskList.removeTask(self.taskD)
         self.taskList.removeTask(self.taskE)
+
         self.taskList = None
+
+        self.taskC = None
+        self.taskD = None
+        self.taskE = None
 
         self.workflow = None
 
     def test_addTaskToWorkflow(self):
-        self.assertNotIn(taskA, self.workflow.flowList)
+        self.assertNotIn(self.taskA, self.workflow.flowList)
         self.workflow.addTaskToWorkflow(self.taskA)
-        self.assertIn(taskA, self.workflow.flowList)
+        self.assertIn(self.taskA, self.workflow.flowList)
 
+    def test_removeTaskFromWorkflow(self):
+        self.workflow.addItemToWorkflow(self.taskA)
+        self.assertIn(self.taskA, self.workflow.flowList)
+        self.workflow.removeTaskFromWorkflow(self.taskA)
+        self.assertNotIn(self.taskA, self.workflow.flowList)
 
     def test_addTaskListToWorkflow(self):
-        pass
+        self.assertNotIn(self.taskList, self.workflow.flowList)
+        self.workflow.addTaskListToWorkflow(self.taskList)
+        self.assertIn(self.taskList, self.workflow.flowList)
+
+    def test_removeTaskListFromWorkflow(self):
+        self.workflow.addTaskListToWorkflow(self.taskList)
+        self.assertIn(self.taskList, self.workflow.flowList)
+        self.workflow.removeTaskListFromWorkflow(self.taskList)
+        self.assertNotIn(self.taskList, self.workflow.flowList)
+
+    def test_addItemToWorkflow(self):
+        self.assertNotIn(self.taskA, self.workflow.flowList)
+        self.workflow.addItemToWorkflow(self.taskA)
+        self.assertIn(self.taskA, self.workflow.flowList)
+        self.assertEqual(self.workflow.itemCount, 1)
+        self.assertEqual(self.workflow.taskCount, 1)
+        self.assertEqual(self.workflow.listCount, 0)
+
+        self.assertNotIn(self.taskList, self.workflow.flowList)
+        self.workflow.addItemToWorkflow(self.taskList)
+        self.assertIn(self.taskList, self.workflow.flowList)
+        self.assertEqual(self.workflow.itemCount, 4)
+        self.assertEqual(self.workflow.taskCount, 1)
+        self.assertEqual(self.workflow.listCount, 1)
+
+    def test_removeItemFromWorkflow(self):
+        self.workflow.addItemToWorkflow(self.taskA)
+        self.assertIn(self.taskA, self.workflow.flowList)
+        self.workflow.addItemToWorkflow(self.taskList)
+        self.assertIn(self.taskList, self.workflow.flowList)
+        self.assertEqual(self.workflow.itemCount, 4)
+        self.assertEqual(self.workflow.taskCount, 1)
+        self.assertEqual(self.workflow.listCount, 1)
+
+        self.workflow.removeItemFromWorkflow(self.taskA)
+        self.assertNotIn(self.taskA, self.workflow.flowList)
+        self.assertEqual(self.workflow.itemCount, 3)
+        self.assertEqual(self.workflow.taskCount, 0)
+        self.assertEqual(self.workflow.listCount, 1)
+
+        self.workflow.removeItemFromWorkflow(self.taskList)
+        self.assertNotIn(self.taskList, self.workflow.flowList)
+        self.assertEqual(self.workflow.itemCount, 0)
+        self.assertEqual(self.workflow.taskCount, 0)
+        self.assertEqual(self.workflow.listCount, 0)
