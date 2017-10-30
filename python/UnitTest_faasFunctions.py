@@ -1,7 +1,7 @@
 import requests
 import json
 import unittest
-
+#The addition of these tests requires the docker container to be run with this command: docker run --net="host"  --rm -it python-dev
 class faasFunctionsTests(unittest.TestCase):
     def setUp(self):
         self.estimate = 3.0

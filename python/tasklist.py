@@ -2,7 +2,7 @@ class TaskList:
     def __init__(self):
         self.taskCount = 0
         self.listOfTasks = list()
-        self.bestCase
+        self.bestCase = 0
 
     def addTask(self, taskToAdd):
         self.listOfTasks.append(taskToAdd)
@@ -14,3 +14,4 @@ class TaskList:
 
     def sortTaskList(self, propertyToSort, ascendOrDescend):
         #self.listOfTasks = taskListToSort
+        pass

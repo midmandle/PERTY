@@ -47,18 +47,18 @@ class taskListOperationTests(unittest.TestCase):
         self.taskList.addTask(Task(1.0, 2.0, 15.0, 5))
         self.assertEqual(self.taskList.taskCount, 3) #Three should exist
 
-        self.taskList.sortTaskList(optimistic, ascend)
-        self.taskList.assertGreater(self.taskList.listOfTasks[1].optimistic, self.taskList.listOfTasks[0].optimistic) #2nd item now should be greater than first
+        self.taskList.sortTaskList("optimistic", "ascend")
+        self.assertGreater(self.taskList.listOfTasks[1].optimistic, self.taskList.listOfTasks[0].optimistic) #2nd item now should be greater than first
 
-        self.taskList.sortTaskList(pessimistic, descend)
-        self.taskList.assertLess(self.taskList.listOfTasks[1].pessimistic, self.taskList.listOfTasks[0].pessimistic) #2nd item now should be less than first
+        self.taskList.sortTaskList("pessimistic", "descend")
+        self.assertLess(self.taskList.listOfTasks[1].pessimistic, self.taskList.listOfTasks[0].pessimistic) #2nd item now should be less than first
 
-        self.taskList.sortTaskList(estimate, ascend)
-        self.taskList.assertGreater(self.taskList.listOfTasks[1].estimate, self.taskList.listOfTasks[0].estimate)
+        self.taskList.sortTaskList("estimate", "ascend")
+        self.assertGreater(self.taskList.listOfTasks[1].estimate, self.taskList.listOfTasks[0].estimate)
 
-        self.taskList.sortTaskList(weight, descend)
-        self.taskList.assertLess(self.taskList.listOfTasks[1].weight, self.taskList.listOfTasks[0].weight)
-        
+        self.taskList.sortTaskList("weight", "descend")
+        self.assertLess(self.taskList.listOfTasks[1].weight, self.taskList.listOfTasks[0].weight)
+
 
 
     '''
