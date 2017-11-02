@@ -1,2 +1,3 @@
 ### Add any required libraries etc. here.
 requests
+mongoengine
