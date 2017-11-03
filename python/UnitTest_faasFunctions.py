@@ -47,3 +47,18 @@ class faasFunctionsTests(unittest.TestCase):
 
         jsonResponse = r.json()
         self.assertEqual(jsonResponse["priority"], 0.72)
+
+    '''
+    def test_func_add_task(self):
+        jsonData = {"db":"user1", "host":"localhost", "username":"user1"}
+        jsonData["title"]="Unit Testing Test 1"
+        jsonData["description"]="Unit testing description string..."
+        jsonData["optimistic"] = self.optimistic
+        jsonData["estimate"] = self.estimate
+        jsonData["pessimistic"] = self.pessimistic
+        jsonData["multiplier"] = 1.0
+        jsonData["weight"] = 3
+        r = requests.post('http://127.0.0.1:8080/function/add-task', json = jsonData)
+        jsonResponse = r.json()
+        print jsonResponse
+    '''
